@@ -1,23 +1,56 @@
 package com.onion.OnionTestV2;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-@Entity
+
+@Entity(name = "Project")
+@Table(name = "project")
 public class Project {
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(
+            name = "project_sequence",
+            sequenceName = "project_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "project_sequence"
+    )
+    @Column(
+            name = "id",
+            updatable = false
+    )
     private Long id;
 
+    @Column(
+            name = "title",
+            nullable = false,
+            columnDefinition = "TEXT",
+            unique = true
+    )
     private String title;
+
+    @Column(
+            name = "description",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String description;
 
+    @Column(
+            name = "images"
+    )
     private String images; // img type
 
-    // inside information
-        // checkbox lists
+    @OneToOne(
+            mappedBy = "project",
+            orphanRemoval = true
+    )
+    private ProjectDetails projectDetails;
+
+
+
 
     public Project(String title, String description, String images) {
         this.title = title;
@@ -60,6 +93,9 @@ public class Project {
         this.images = images;
     }
 
+
+
+
     @Override
     public String toString() {
         return "Project{" +
@@ -67,6 +103,7 @@ public class Project {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", images='" + images + '\'' +
+                ", projectDetails=" + projectDetails +
                 '}';
     }
 }

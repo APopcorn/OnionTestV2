@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -21,6 +22,16 @@ public class ProjectController {
         List<Project> list = new ArrayList<Project>();
         repository.findAll().forEach(list::add);
         return list;
+    }
+
+    @GetMapping(path = "/projects/{id}")
+    public Project getEmployessById(@PathVariable("id") Long id) {
+        Optional<Project> project = repository.findById(id);
+        if (!project.isPresent()) {
+            return new Project();
+        }
+
+        return project .get();
     }
 
     @DeleteMapping("/projects")

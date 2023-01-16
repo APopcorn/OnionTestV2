@@ -11,17 +11,6 @@ public class OnionTestV2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(OnionTestV2Application.class, args);
 	}
-
-	@Bean
-	public CommandLineRunner run(EmployeeRepository repository) {
-		return (args -> {
-			insertJavaAdd(repository);
-			System.out.println(repository.findAll());
-		});
-	}
-
-	private void insertJavaAdd(EmployeeRepository repository){
-
-	}
+	
 
 }
